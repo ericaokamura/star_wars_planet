@@ -6,7 +6,7 @@ Planet creation, deletion, listing, listing per name and listing per id API and 
 
 Open a terminal and git clone the two projects into a directory. Open the IDE (Eclipse, IntelliJ or STS) and open the projects as Maven projects. Run both projects as Java Application. Open Postman and type:
 
-1. POST http://localhost:8001/client/planets/ --> adicionar planeta (com RequestBody como abaixo)
+1. POST http://localhost:8001/client/planets/ --> add planet (RequestBody as below)
 
 {
 	"nome": "Saturno",
@@ -15,13 +15,13 @@ Open a terminal and git clone the two projects into a directory. Open the IDE (E
 	"qtdAparicoes": 9
 }
 
-2. GET http://localhost:8001/client/planets/ --> listar todos os planetas 
+2. GET http://localhost:8001/client/planets/ --> list all planets 
 
-3. GET http://localhost:8001/client/planets/nome/{nome} --> onde {nome} é o nome do planeta que se deseja buscar
+3. GET http://localhost:8001/client/planets/nome/{nome} --> where {nome} is the name of planet which you are searching for
 
-4. GET http://localhost:8001/client/planets/id/{id} --> onde {id} é o id do planeta que se deseja buscar
+4. GET http://localhost:8001/client/planets/id/{id} --> where {id} is the id of planet which you are searching for
 
-5. DELETE http://localhost:8001/client/planets/{id} --> onde {id} é o id do planeta que se deseja deletar
+5. DELETE http://localhost:8001/client/planets/{id} --> where {id} is the id of planet which you want to delete 
 
 ### Prerequisites
 
