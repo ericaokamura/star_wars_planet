@@ -1,11 +1,12 @@
 package com.planets.StarWarsClientApplication.controllers;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import com.planets.StarWarsClientApplication.dtos.PlanetDTO;
+import com.planets.StarWarsClientApplication.dtos.PlanetQtdAparicoesDTO;
 import com.planets.StarWarsClientApplication.handler.ErrorHandler;
 
 @RestController
@@ -30,6 +32,7 @@ public class PlanetClientController {
 		try {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
+			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 			URI uri = new URI("http://localhost:8000/planets");
 			response = new RestTemplate().postForObject(uri, 
 					new HttpEntity<PlanetDTO>(planeta, headers), PlanetDTO.class);
@@ -46,8 +49,6 @@ public class PlanetClientController {
 		ResponseEntity<PlanetDTO> response = null;
 		
 		try {
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
 			response = new RestTemplate().getForEntity("http://localhost:8000/planets/", PlanetDTO.class);
 		} catch (HttpClientErrorException e) {
 			 e.printStackTrace();
@@ -65,8 +66,6 @@ public class PlanetClientController {
 		mapping.put("nome", nome);		
 		
 		try {
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
 			RestTemplate template = new RestTemplate();
 			template.setErrorHandler(new ErrorHandler());
 			response = template.getForEntity("http://localhost:8000/planets/nome/{nome}", PlanetDTO.class, mapping);
@@ -86,8 +85,6 @@ public class PlanetClientController {
 		mapping.put("id", id);
 		
 		try {
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
 			response = new RestTemplate().getForEntity("http://localhost:8000/planets/id/{id}", PlanetDTO.class, mapping);
 		} catch (HttpClientErrorException e) {
 			 e.printStackTrace();
@@ -96,16 +93,36 @@ public class PlanetClientController {
 		return response;
 	}
 	
-	@DeleteMapping(value = "/client/planets/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/client/planets/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void removePlaneta(@PathVariable("id") Long id) throws Exception {
 		
+		Map<String, Object> mapping = new HashMap<>();
+		mapping.put("id", id);
+		
 		try {
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			new RestTemplate().delete("http://localhost:8000/planets/{id}");
+			new RestTemplate().delete("http://localhost:8000/planets/id/{id}", mapping);
 		} catch (HttpClientErrorException e) {
 			 e.printStackTrace();
 			 throw new RuntimeException();
 		}
+	}
+	
+	@GetMapping(value = "/client/planets/qtdAparicoes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PlanetQtdAparicoesDTO> retornaQtdAparicoes(@PathVariable("id") Long id) throws Exception {
+		
+		ResponseEntity<PlanetQtdAparicoesDTO> response = null;
+		
+		Map<String, Object> mapping = new HashMap<>();
+		mapping.put("id", id);
+		
+		try {
+			response = new RestTemplate().getForEntity("http://localhost:8000/planets/qtdAparicoes/{id}", PlanetQtdAparicoesDTO.class, mapping);
+		} catch (HttpClientErrorException e) {
+			 e.printStackTrace();
+			 throw new RuntimeException();
+		}
+		return ResponseEntity
+					.status(HttpStatus.OK)
+					.body(response.getBody());
 	}
 }

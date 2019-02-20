@@ -1,5 +1,7 @@
 package com.planets.StarWarsClientApplication.dtos;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class PlanetDTO {
 	
 	private String nome;

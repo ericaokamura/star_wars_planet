@@ -58,9 +58,16 @@ public class PlanetsController {
 				.body(planeta);
     }
     
-    @DeleteMapping(value = "/planets/{id}")
+    @DeleteMapping(value = "/planets/id/{id}")
     public void removePlaneta(@PathVariable("id") Long id) {
         planetService.removePlaneta(id);
     }
     
+    @GetMapping(value = "/planets/qtdAparicoes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> retornaQtdAparicoes(@PathVariable("id") Long id) {
+        Planet planeta = planetService.encontrePlanetaPorId(id);
+        return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(planeta.getQtdAparicoes());
+    }
 }
