@@ -23,6 +23,8 @@ Open a terminal and git clone the two projects into a directory. Open the IDE (E
 
 5. DELETE http://localhost:8001/client/planets/{id} --> where {id} is the id of planet which you want to delete 
 
+6. GET http://localhost:8001/client/planets/qtdAparicoes/{id} --> where {id} is the id of the planet which you want to get the information of apparitions of on the Star Wars movies.
+
 ### Prerequisites
 
 Java 8, Spring Tool Suite, Spring Boot, Spring Data, Spring Web, Swagger, MySQL, JUnit, Mockito, Postman
